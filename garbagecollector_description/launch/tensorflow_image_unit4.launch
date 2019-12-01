@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+	<include file="$(find garbagecollector_description)/launch/garbagecollector_world.launch"/>
+	<include file="$(find garbagecollector_description)/launch/garbagecollector_garbage_spawn.launch"/>
+	<include file="$(find garbagecollector_description)/launch/garbagecollector_full.launch"/>
+	
+
+</launch>

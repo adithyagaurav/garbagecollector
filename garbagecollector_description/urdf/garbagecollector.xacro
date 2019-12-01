@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot name="garbagecollector" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Inertia matrices -->
+	<xacro:include filename="$(find garbagecollector_description)/urdf/macros.xacro" />
+	<!-- Robot constants and properties -->
+	<xacro:include filename="$(find garbagecollector_description)/urdf/garbagecollector_properties.xacro" />
+	<!-- Import Rviz colors -->
+	<xacro:include filename="$(find garbagecollector_description)/urdf/materials.xacro" />
+	<!-- Sensor models -->
+	<xacro:include filename="$(find garbagecollector_description)/urdf/sensors.xacro" />
+	<!-- Gazebo aspects of the robot -->
+	<xacro:include filename="$(find garbagecollector_description)/urdf/garbagecollector.gazebo" />
+	<!-- Arms -->
+	<xacro:include filename="$(find garbagecollector_description)/urdf/arms.xacro" />
+	<!-- Bag -->
+	<xacro:include filename="$(find garbagecollector_description)/urdf/bag.xacro" />
+	
+	
+	<wheel lr="left" tY="-1"/>
+	<wheel lr="right" tY="1"/>
+	
+	<arm lr="left" tY="-1"/>
+	<arm lr="right" tY="1"/>
+	
+	<bag/>
+
+	<!-- Used for fixing robot to Gazebo 'chassis' -->
+	<link name="base_footprint" />
+
+	<joint name="base_joint" type="fixed">
+		<parent link="base_footprint"/>
+		<child link="chassis"/>
+	</joint>
+
+
+	<link name='chassis'>
+
+		<collision> 
+			<origin xyz="0 0 ${wheelRadius*scale_XYZ}" 
+					rpy="0 0 0"/> 
+			<geometry> 
+				<mesh filename="package://garbagecollector_description/meshes/chassis.dae" scale="${scale_XYZ} ${scale_XYZ} ${scale_XYZ}"/>
+			</geometry> 
+		</collision>
+
+		<visual> 
+			<origin xyz="0 0 ${wheelRadius*scale_XYZ}" 
+					rpy="0 0 0"/> 
+			<geometry>  
+				<mesh filename="package://garbagecollector_description/meshes/chassis.dae" scale="${scale_XYZ} ${scale_XYZ} ${scale_XYZ}"/>
+			</geometry> 
+			<material name="red"/>
+		</visual>
+
+		<inertial> 
+			<origin xyz="0 0 ${wheelRadius*scale_XYZ}" 
+					rpy="0 0 0"/> 
+			<mass value="${chassisMass}"/> 
+			<box_inertia 
+				m="${chassisMass}" 
+				x="${chassisLength*scale_XYZ}" 
+				y="${chassisWidth*scale_XYZ}" 
+				z="${chassisHeight*scale_XYZ}"/>
+		</inertial>
+
+	</link>
+
+
+	<joint name="caster_joint" type="fixed">
+		<parent link="chassis"/>
+		<child link="caster_wheel"/>
+	</joint>
+
+
+	<link name="caster_wheel">
+
+		<collision>
+			<origin xyz="${casterOffsetX*scale_XYZ} 0 ${2*casterRadius*scale_XYZ}" 
+					rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="package://garbagecollector_description/meshes/caster_wheel.dae" scale="${scale_XYZ} ${scale_XYZ} ${scale_XYZ}"/>
+	  		</geometry>
+		</collision>
+
+		<visual> 
+			<origin xyz="${casterOffsetX*scale_XYZ} 0 ${2*casterRadius*scale_XYZ}" 
+					rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="package://garbagecollector_description/meshes/caster_wheel.dae" scale="${scale_XYZ} ${scale_XYZ} ${scale_XYZ}"/>
+			</geometry>
+			<material name="grey" />
+		</visual>
+
+		<inertial>
+			<origin xyz="${casterOffsetX*scale_XYZ} 0 ${2*casterRadius*scale_XYZ}" 
+					rpy="0 0 0"/>
+			<mass value="${casterMass}"/>
+			<sphere_inertia 
+				m="${casterMass}" 
+				r="${casterRadius*scale_XYZ}"/>
+		</inertial>
+
+	</link>
+	
+
+</robot>

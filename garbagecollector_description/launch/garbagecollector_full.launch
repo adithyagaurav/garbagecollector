@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.0" />
+    <arg name="roll" default="0.0"/>
+    <arg name="pitch" default="0.0"/>
+    <arg name="yaw" default="0.0"/>
+
+	<include file="$(find garbagecollector_description)/launch/garbagecollector_spawn.launch">
+		<arg name="x" value="$(arg x)" />
+        <arg name="y" value="$(arg y)" />
+        <arg name="z" value="$(arg z)" />
+        <arg name="roll" value="$(arg roll)"/>
+        <arg name="pitch" value="$(arg pitch)"/>
+        <arg name="yaw" value="$(arg yaw)" />
+		<arg name="model" value="$(find garbagecollector_description)/urdf/garbagecollector.xacro"/>
+	</include>
+	<include file="$(find garbagecollector_description)/launch/garbagecollector_control.launch"/>
+	<include file="$(find garbagecollector_description)/launch/garbagecollector_start_pickservice.launch"/>
+
+</launch>

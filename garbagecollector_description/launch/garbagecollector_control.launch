@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <rosparam file="$(find garbagecollector_description)/config/garbagecollector_control.yaml"
+            command="load"/>
+
+  <node name="robot_state_publisher_garbagecollector" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+            <param name="publish_frequency" type="double" value="5.0" />
+            
+            <remap from="/joint_states" to="/garbagecollector/joint_states" />
+        </node>
+
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" args="--namespace=/garbagecollector 
+                              joint_state_controller 
+                              left_arm_joint_position_controller
+                              right_arm_joint_position_controller
+                              left_arm_shovel_lid_joint_position_controller
+                              right_arm_shovel_lid_joint_position_controller
+                              --shutdown-timeout 3">
+  </node>
+
+</launch>

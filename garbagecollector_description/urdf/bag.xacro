@@ -1,0 +1,127 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="bag">
+
+    
+    <link name="bag_link">
+      <!-- Bottom -->
+      <collision>
+        <origin xyz="0 0 0" 
+        		rpy="0 0 0" />
+        <geometry>
+            <box size="${bag_bottom_x_size} ${bag_bottom_y_size} ${bag_z_size}"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" 
+        		rpy="0 0 0" />
+        <geometry>
+          <box size="${bag_bottom_x_size} ${bag_bottom_y_size} ${bag_z_size}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      
+      
+      <!-- front -->
+      <collision>
+        <origin xyz="${bag_bottom_x_size/2} 0 ${bag_front_x_size/2}" 
+        		rpy="0 1.57 0" />
+        <geometry>
+            <box size="${bag_front_x_size} ${bag_front_y_size} ${bag_z_size}"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="${bag_bottom_x_size/2} 0 ${bag_front_x_size/2}" 
+        		rpy="0 1.57 0" />
+        <geometry>
+          <box size="${bag_front_x_size} ${bag_front_y_size} ${bag_z_size}"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+      
+      <!-- back -->
+      <collision>
+        <origin xyz="${-bag_bottom_x_size/2} 0 ${bag_back_x_size/2}" 
+        		rpy="0 1.57 0" />
+        <geometry>
+            <box size="${bag_back_x_size} ${bag_back_y_size} ${bag_z_size}"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="${-bag_bottom_x_size/2} 0 ${bag_back_x_size/2}" 
+        		rpy="0 1.57 0" />
+        <geometry>
+          <box size="${bag_back_x_size} ${bag_back_y_size} ${bag_z_size}"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      
+      <!-- Left -->
+      <collision>
+        <origin xyz="0 ${bag_bottom_y_size/2} ${bag_side_y_size/2}" 
+        		rpy="1.57 0 0" />
+        <geometry>
+            <box size="${bag_side_x_size} ${bag_side_y_size} ${bag_z_size}"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 ${bag_bottom_y_size/2} ${bag_side_y_size/2}" 
+        		rpy="1.57 0 0" />
+        <geometry>
+          <box size="${bag_side_x_size} ${bag_side_y_size} ${bag_z_size}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      
+      <!-- Right -->
+      <collision>
+        <origin xyz="0 ${-bag_bottom_y_size/2} ${bag_side_y_size/2}" 
+        		rpy="1.57 0 0" />
+        <geometry>
+            <box size="${bag_side_x_size} ${bag_side_y_size} ${bag_z_size}"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 ${-bag_bottom_y_size/2} ${bag_side_y_size/2}" 
+        		rpy="1.57 0 0" />
+        <geometry>
+          <box size="${bag_side_x_size} ${bag_side_y_size} ${bag_z_size}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+
+      <inertial>
+        <origin xyz="0 0 0" 
+        		rpy="0 0 0" />
+        <mass value="${shovelMass}"/>
+        <box_inertia 
+          m="${bagMass}" 
+          x="${bag_bottom_x_size}" 
+          y="${bag_bottom_y_size}"
+          z="${bag_z_size}"/>
+      </inertial>
+    </link>
+    
+    <gazebo reference="bag_link">
+      <mu1 value="0.01"/>
+      <mu2 value="0.01"/>
+      <kp  value="100000.0" />
+      <kd>1000000.0</kd>
+      <material>Gazebo/White</material>
+    </gazebo>
+    
+    <joint name="bag_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="${bagOffsetX} ${bagOffsetY} ${bagOffsetZ}" />
+      <parent link="chassis" />
+      <child link="bag_link" />
+    </joint>
+    
+  </xacro:macro>
+
+</robot>
